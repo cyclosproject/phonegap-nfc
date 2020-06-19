@@ -287,6 +287,9 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     }
 
     private void removeNdef(CallbackContext callbackContext) {
+        if (MainActivity.get().hasCard()) {
+            MainActivity.get().getCard().cancelExternalAuthenticate();
+        }
         removeTechList(new String[]{Ndef.class.getName()});
         restartNfc();
         callbackContext.success();
@@ -565,10 +568,6 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private void stopNfc() {
         Log.d(TAG, "stopNfc");
         getActivity().runOnUiThread(() -> {
-            if (MainActivity.get().hasCard()) {
-                MainActivity.get().getCard().cancelExternalAuthenticate();
-            }
-
             NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
             if (nfcAdapter != null) {
