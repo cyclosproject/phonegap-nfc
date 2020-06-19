@@ -15,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.cyclos.mobile.MainActivity;
+import org.cyclos.mobile.nfc.desfire.DESFireEV1;
+
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -302,6 +305,7 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
         startNfc();
         if (!recycledIntent()) {
             parseMessage();
+            setTag(getIntent());
         }
         callbackContext.success();
     }
@@ -561,6 +565,9 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private void stopNfc() {
         Log.d(TAG, "stopNfc");
         getActivity().runOnUiThread(() -> {
+            if (MainActivity.get().hasCard()) {
+                MainActivity.get().getCard().cancelExternalAuthenticate();
+            }
 
             NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
 
@@ -821,6 +828,7 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
         setIntent(intent);
         savedIntent = intent;
         parseMessage();
+        setTag(intent);
     }
 
     private Activity getActivity() {
@@ -1013,4 +1021,13 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
         });
     }
 
+    private void setTag(Intent intent) {
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        // TODO see how to handle when it's a mobile phone
+        try {
+            MainActivity.get().setCard(new DESFireEV1(tag));
+        } catch (Exception e) {
+            MainActivity.get().setCard(null);
+        }
+    }
 }
