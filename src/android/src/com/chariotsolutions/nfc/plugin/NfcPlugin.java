@@ -44,6 +44,7 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private static final String REGISTER_NDEF = "registerNdef";
     private static final String REMOVE_NDEF = "removeNdef";
     private static final String REGISTER_NDEF_FORMATABLE = "registerNdefFormatable";
+    private static final String REMOVE_NDEF_FORMATABLE = "removeNdefFormatable";
     private static final String REGISTER_DEFAULT_TAG = "registerTag";
     private static final String REMOVE_DEFAULT_TAG = "removeTag";
     private static final String WRITE_TAG = "writeTag";
@@ -142,6 +143,9 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
 
         } else if (action.equalsIgnoreCase(REGISTER_NDEF_FORMATABLE)) {
             registerNdefFormatable(callbackContext);
+
+        } else if (action.equalsIgnoreCase(REMOVE_NDEF_FORMATABLE)) {
+            removeNdefFormatable(callbackContext);
 
         } else if (action.equals(REGISTER_DEFAULT_TAG)) {
             registerDefaultTag(callbackContext);
@@ -291,6 +295,15 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
             MainActivity.get().getCard().cancelExternalAuthenticate();
         }
         removeTechList(new String[]{Ndef.class.getName()});
+        restartNfc();
+        callbackContext.success();
+    }
+
+    private void removeNdefFormatable(CallbackContext callbackContext) {
+        if (MainActivity.get().hasCard()) {
+            MainActivity.get().getCard().cancelExternalAuthenticate();
+        }
+        removeTechList(new String[]{NdefFormatable.class.getName()});
         restartNfc();
         callbackContext.success();
     }

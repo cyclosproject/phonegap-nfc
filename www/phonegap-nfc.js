@@ -496,6 +496,11 @@ var nfc = {
         cordova.exec(win, fail, "NfcPlugin", "removeNdef", []);
     },
 
+    removeNdefFormatableListener: function (callback, win, fail) {
+    	document.removeEventListener("ndef-formatable", callback, false);
+    	cordova.exec(win, fail, "NfcPlugin", "removeNdefFormatable", []);
+    },
+
     showSettings: function (win, fail) {
         cordova.exec(win, fail, "NfcPlugin", "showSettings", []);
     },
