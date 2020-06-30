@@ -1,3 +1,5 @@
+# We use this plugin ony for Android
+
 PhoneGap NFC Plugin
 ==========================
 
