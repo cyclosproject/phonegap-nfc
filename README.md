@@ -1,4 +1,4 @@
-# We use this plugin ony for Android
+# We use this plugin only for Android
 
 PhoneGap NFC Plugin
 ==========================
