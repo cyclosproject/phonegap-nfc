@@ -1,4 +1,5 @@
 # We use this plugin only for Android
+* The last change was to add support for Android 12 (API Level 31)
 
 PhoneGap NFC Plugin
 ==========================
