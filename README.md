@@ -1,5 +1,5 @@
-# We use this plugin only for Android
-* The last change was to add support for Android 12 (API Level 31)
+# Cyclos patch
+We use this plugin __only for Android__. The last change was to add support for Android 12 (API Level 31)
 
 PhoneGap NFC Plugin
 ==========================
